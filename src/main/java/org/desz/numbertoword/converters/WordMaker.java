@@ -3,21 +3,17 @@ package org.desz.numbertoword.converters;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.desz.numbertoword.converters.HundredthConverter.funBuildWord;
 import static org.desz.numbertoword.language.ProvLang.DE;
 
 import java.util.List;
 
+import org.desz.numbertoword.exceptions.AppConversionException;
 import org.desz.numbertoword.language.NumberWordMapping;
 import org.desz.numbertoword.results.Word;
 import org.desz.numbertoword.results.Word.WordBuilder;
 
 public class WordMaker {
-
-	private final FuncHundConverter hunConverter;
-
-	public WordMaker() {
-		hunConverter = (j, k) -> new HundredthConverter().wordForHundredth(j, k);
-	}
 
 	// add or remove 'und' for DE word.
 	private String processDeHun(String s, String and, boolean addAnd) {
@@ -41,52 +37,36 @@ public class WordMaker {
 	 * tail recursion using numbers sublist and converting each element adding to
 	 * WordBuilder on each recursion.
 	 */
-	public Word buildWord(List<String> fmtNumber, WordBuilder wordBuilder, NumberWordMapping intWordMapping) {
+	public Word buildWord(List<String> fmtNumber, WordBuilder wordBuilder, NumberWordMapping wordMapping) {
 		var sz = fmtNumber.size();
 
 		// get zero element index and convert
 		var firstElem = fmtNumber.getFirst();
-		var num = hunConverter.wordForNumber(firstElem, intWordMapping).orElse(EMPTY);
+		var num = funBuildWord.apply(firstElem, wordMapping).orElse(EMPTY);
 
-		var zero = intWordMapping.wordForNum(0);
+		var zero = wordMapping.wordForNum(0);
 		if (!num.equals(EMPTY) && !zero.toLowerCase().equals(num)) {
 
-			num = intWordMapping.getId().equals(DE.name())
-					? processDeHun(num, intWordMapping.getAnd(), Integer.parseInt(firstElem) % 100 > 20)
+			num = wordMapping.getId().equals(DE.name())
+					? processDeHun(num, wordMapping.getAnd(), Integer.parseInt(firstElem) % 100 > 20)
 					: num;
 
 			switch (sz) {
 
-			case 7:
-				wordBuilder.quint(num + SPACE + intWordMapping.getQuintn());
-				break;
-			case 6:
-				wordBuilder.quadr(num + SPACE + intWordMapping.getQuadrn());
-				break;
-			case 5:
-				wordBuilder.trill(num + SPACE + intWordMapping.getTrilln());
-				break;
-			case 4:
-				wordBuilder.bill(num + SPACE + intWordMapping.getBilln());
-				break;
-			case 3:
-				wordBuilder.mill(num + SPACE + intWordMapping.getMilln());
-				break;
-			case 2:
-				wordBuilder.thou(num + SPACE + intWordMapping.getThoud());
-				break;
-
-			case 1:
-				wordBuilder.hund(num);
-				break;
-			default:
-				break;
+			case 7 -> wordBuilder.quint(num + SPACE + wordMapping.getQuintn());
+			case 6 -> wordBuilder.quadr(num + SPACE + wordMapping.getQuadrn());
+			case 5 -> wordBuilder.trill(num + SPACE + wordMapping.getTrilln());
+			case 4 -> wordBuilder.bill(num + SPACE + wordMapping.getBilln());
+			case 3 -> wordBuilder.mill(num + SPACE + wordMapping.getMilln());
+			case 2 -> wordBuilder.thou(num + SPACE + wordMapping.getThoud());
+			case 1 -> wordBuilder.hund(num);
+			default -> throw new AppConversionException();
 
 			}
 		}
-		
+
 		return sz == 1 ? wordBuilder.build()
-				: buildWord(fmtNumber.subList(1, fmtNumber.size()), wordBuilder, intWordMapping);
+				: buildWord(fmtNumber.subList(1, fmtNumber.size()), wordBuilder, wordMapping);
 
 	}
 

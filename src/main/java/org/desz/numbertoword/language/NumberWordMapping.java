@@ -3,9 +3,9 @@
  */
 package org.desz.numbertoword.language;
 
-import java.util.Map;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Value;
@@ -38,7 +38,7 @@ public class NumberWordMapping {
 	 */
 	public String wordForNum(int num) {
 		var key = String.valueOf(num);
-		return map.containsKey(key) ? map.get(key) : StringUtils.EMPTY;
+		return map.containsKey(key) ? map.get(key) : EMPTY;
 	}
 
 }

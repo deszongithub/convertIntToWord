@@ -7,7 +7,7 @@ package org.desz.numbertoword.exceptions;
  * @author des
  *
  */
-public class AppConversionException extends Exception {
+public class AppConversionException extends RuntimeException {
 
 	/**
 	 * serialVersionUID
