@@ -4,14 +4,12 @@
 package org.desz.numbertoword.converters;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.desz.numbertoword.language.NumberWordMapping;
 
 /**
@@ -30,9 +28,7 @@ public class HundredthConverter {
 	public Optional<String> wordForHundredth(String input, NumberWordMapping map) {
 		var number = requireNonNull(input);
 		var wordMap = requireNonNull(map);
-		if (number.length() > 3) {
-			return empty();
-		}
+
 		// parse number to int.
 		var n = Integer.parseInt(number);
 
@@ -43,28 +39,33 @@ public class HundredthConverter {
 			return of(availableMapping.toLowerCase());
 		}
 
-		var hun = (wordMap.wordForNum(n / 100) + wordMap.getHund()).toLowerCase();
+		var hun = (wordMap.wordForNum(Math.divideExact(n, 100)) + wordMap.getHund()).toLowerCase();
 
-		if (n % 100 == 0)// ie 100..900
+		int nmod = Math.floorMod(n, 100);
+		if (nmod == 0) {
+			// ie 100..900
 			return of(hun);
+		}
 
 		hun = (n < 100) ? EMPTY : hun + SPACE + wordMap.getAnd();
 
 		// build number with non-zero decimal.
 
-		int nmod = n % 100;
-		var rem = wordMap.wordForNum(nmod);
-		if (!StringUtils.isEmpty(rem)) {
+		var sb = new StringBuilder().append(hun);
 
-			return of(hun + rem.toLowerCase());// e.g., n = 110, 120,..990.
+		var rem = wordMap.wordForNum(nmod);
+		if (!rem.isBlank()) {
+
+			return of(sb.append(rem.toLowerCase()).toString());
 		}
 
 		int k = nmod;// e.g., nmod = 23
 		nmod %= 10;// ..nmod = 3
 		k -= nmod; // .. k = 20
 
-		return of(hun + wordMap.wordForNum(k).toLowerCase() + SPACE
-				+ wordMap.wordForNum(nmod).toLowerCase());
+		sb.append(wordMap.wordForNum(k).toLowerCase()).append(SPACE).append(wordMap.wordForNum(nmod).toLowerCase());
+
+		return of(sb.toString());
 	}
 
 }

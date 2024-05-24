@@ -13,10 +13,10 @@ import org.desz.numbertoword.results.Word.WordBuilder;
 
 public class WordMaker {
 
-	private final FuncHundConverter hundredthConverter;
+	private final FuncHundConverter hunConverter;
 
 	public WordMaker() {
-		hundredthConverter = (j, k) -> new HundredthConverter().wordForHundredth(j, k);
+		hunConverter = (j, k) -> new HundredthConverter().wordForHundredth(j, k);
 	}
 
 	// add or remove 'und' for DE word.
@@ -38,20 +38,21 @@ public class WordMaker {
 	}
 
 	/**
-	 * tail recursion using numbers sublist and adding to WordBuilder on each
-	 * recursion.
+	 * tail recursion using numbers sublist and converting each element adding to
+	 * WordBuilder on each recursion.
 	 */
-	public Word buildWord(List<String> formattedNumber, WordBuilder wordBuilder, NumberWordMapping intWordMapping) {
-		var sz = formattedNumber.size();
+	public Word buildWord(List<String> fmtNumber, WordBuilder wordBuilder, NumberWordMapping intWordMapping) {
+		var sz = fmtNumber.size();
 
 		// get zero element index and convert
-		var num = hundredthConverter.wordForNumber(formattedNumber.get(0), intWordMapping).orElse(EMPTY);
+		var firstElem = fmtNumber.getFirst();
+		var num = hunConverter.wordForNumber(firstElem, intWordMapping).orElse(EMPTY);
 
 		var zero = intWordMapping.wordForNum(0);
 		if (!num.equals(EMPTY) && !zero.toLowerCase().equals(num)) {
 
 			num = intWordMapping.getId().equals(DE.name())
-					? processDeHun(num, intWordMapping.getAnd(), Integer.parseInt(formattedNumber.get(0)) % 100 > 20)
+					? processDeHun(num, intWordMapping.getAnd(), Integer.parseInt(firstElem) % 100 > 20)
 					: num;
 
 			switch (sz) {
@@ -83,8 +84,9 @@ public class WordMaker {
 
 			}
 		}
+		
 		return sz == 1 ? wordBuilder.build()
-				: buildWord(formattedNumber.subList(1, formattedNumber.size()), wordBuilder, intWordMapping);
+				: buildWord(fmtNumber.subList(1, fmtNumber.size()), wordBuilder, intWordMapping);
 
 	}
 
