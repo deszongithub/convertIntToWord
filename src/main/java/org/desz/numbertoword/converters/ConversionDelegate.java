@@ -30,7 +30,7 @@ public class ConversionDelegate {
 	private static final String EMPTY_PROVLANG = "Empty ProvLang not permitted.";
 
 	public ConversionDelegate() {
-		wordMaker = (j, k, l) -> (new WordMaker().buildWord(j, k, l));
+		wordMaker = (j, k, l) -> new WordMaker().buildWord(j, k, l);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class ConversionDelegate {
 
 		var s = intWordMapping.wordForNum(n.intValue());
 		// return result if n < 1000 and contained by IntToWordMapping.
-		if (sz == 1 & !isBlank(s)) {
+		if (sz == 1 && !isBlank(s)) {
 
 			return s.toLowerCase();
 		}

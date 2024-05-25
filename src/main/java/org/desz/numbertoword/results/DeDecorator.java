@@ -15,15 +15,13 @@ import static org.apache.commons.lang3.StringUtils.remove;
 
 import java.util.List;
 
-import org.desz.numbertoword.results.Word.WordBuilder;
-
 /**
  * @author des
  *
  */
 public class DeDecorator implements IWordDecorator {
 
-	private Word word;
+	private final Word word;
 
 	public DeDecorator(Word word) {
 		requireNonNull(word);
@@ -32,14 +30,16 @@ public class DeDecorator implements IWordDecorator {
 
 	private String pluralise(String unitWord) {
 		List<String> l = asList(unitWord.split(SPACE));
-		return l.get(0).length() > 3 ? unitWord.endsWith("e") ? unitWord += "n" : unitWord + "en" : unitWord;
+		var sb = new StringBuilder(unitWord);
+		var sufx = unitWord.endsWith("e") ? sb.append("n") : sb.append("en");
+		return l.get(0).length() > 3 ? sufx.toString() : unitWord;
 
 	}
 
 	@Override
 	public Word pluraliseUnitRule() {
 
-		WordBuilder builder = word.toBuilder();
+		var builder = word.toBuilder();
 		builder = nonNull(word.getQuint()) ?
 
 				builder.quint(normalizeSpace(pluralise(word.getQuint()))) : builder;
@@ -66,11 +66,12 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public Word pluraliseHundredthRule(int val) {
-		WordBuilder builder = word.toBuilder();
+		var builder = word.toBuilder();
 
-		builder = nonNull(word.getHund())
-				? valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(word.getHund() + "s")
-						: builder.hund(word.getHund())
+		var is = valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(word.getHund() + "s")
+				: builder.hund(word.getHund());
+		builder = nonNull(word.getHund()) ? is
+
 				: builder;
 
 		return builder.build();
@@ -78,9 +79,9 @@ public class DeDecorator implements IWordDecorator {
 
 	@Override
 	public Word combineThouHundRule() {
-		WordBuilder builder = word.toBuilder();
+		var builder = word.toBuilder();
 
-		StringBuilder sb = new StringBuilder();
+		var sb = new StringBuilder();
 		sb = nonNull(word.getThou()) ? sb.append(remove(word.getThou(), SPACE)) : sb.append(EMPTY);
 
 		sb = nonNull(word.getHund()) ? sb.append(remove(word.getHund(), SPACE)) : sb.append(EMPTY);

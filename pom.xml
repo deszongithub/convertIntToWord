@@ -24,14 +24,13 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
+			<version>3.14.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.32</version>
-			<!-- <scope>provided</scope> -->
 		</dependency>
 
 		<dependency>
@@ -40,10 +39,6 @@
 			<scope>provided</scope>
 			<version>2.0.13</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.slf4j</groupId>
-		<artifactId>slf4j-log4j12</artifactId> 
-			<scope>provided</scope> <version>1.7.7</version> </dependency> -->
-
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -59,6 +54,13 @@
 			<version>3.0.2</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.microsoft.azure/azure-webapp-maven-plugin -->
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-webapp-maven-plugin</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<reporting>
@@ -85,7 +87,6 @@
 	<build>
 
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -95,15 +96,6 @@
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
-
-			<!-- https://mvnrepository.com/artifact/org.junit/surefire-junit5 -->
-			<!--<dependency>
-				<groupId>org.junit</groupId>
-				<artifactId>surefire-junit5</artifactId>
-				<version>5.0.0-ALPHA</version>
-
-			</dependency>-->
-
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -141,11 +133,9 @@
 					<failOnError>false</failOnError>
 				</configuration>
 				<executions>
-					<!-- FIXME Ensures that FindBugs inspects source code when
-					project is 
+					<!-- FIXME Ensures that FindBugs inspects source code when project is 
 						compiled. -->
-					<!-- <execution> <id>analyze-compile</id>
-					<phase>compile</phase> <goals> 
+					<!-- <execution> <id>analyze-compile</id> <phase>compile</phase> <goals> 
 						<goal>check</goal> </goals> </execution> -->
 				</executions>
 			</plugin>
@@ -159,18 +149,13 @@
 						<transformationSet>
 							<!-- Configures the source directory of XML files. -->
 							<dir>${project.build.directory}/findbugs</dir>
-							<!-- Configures the directory in which the FindBugs
-							report is written. -->
+							<!-- Configures the directory in which the FindBugs report is written. -->
 							<outputDir>${project.build.directory}/findbugs</outputDir>
 							<!-- Selects the used stylesheet. -->
-							<!-- <stylesheet>fancy-hist.xsl</stylesheet> -->
+
 							<stylesheet>default.xsl</stylesheet>
-							<!--<stylesheet>plain.xsl</stylesheet> -->
-							<!--<stylesheet>fancy.xsl</stylesheet> -->
-							<!--<stylesheet>summary.xsl</stylesheet> -->
 							<fileMappers>
-								<!-- Configures the file extension of the output
-								files. -->
+								<!-- Configures the file extension of the output files. -->
 								<fileMapper
 									implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
 									<targetExtension>.html</targetExtension>
