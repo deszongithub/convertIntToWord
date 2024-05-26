@@ -4,9 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Stream.of;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.desz.numbertoword.exceptions.AppConversionException;
 import org.desz.numbertoword.language.ILangProvider;
 import org.desz.numbertoword.language.NumberWordMapping;
 import org.desz.numbertoword.language.ProvLang;
@@ -27,7 +28,7 @@ import org.desz.numbertoword.language.ProvLangValues.UkUnit;
  */
 public final class ProvLangFactory implements ILangProvider {
 
-	private static final Map<ProvLang, NumberWordMapping> provLangCache = new HashMap<ProvLang, NumberWordMapping>();
+	private static final Map<ProvLang, NumberWordMapping> provLangCache = new ConcurrentHashMap<>();
 
 	/**
 	 * singleton.
@@ -61,71 +62,67 @@ public final class ProvLangFactory implements ILangProvider {
 
 	private NumberWordMapping get(final ProvLang pl) {
 		var provLang = requireNonNull(pl);
-		synchronized (provLangCache) {
-			var builder = NumberWordMapping.builder();
-			builder.id(provLang.name());
-			switch (provLang) {
 
-			case UK:
+		var builder = NumberWordMapping.builder();
+		builder.id(provLang.name());
+		switch (provLang) {
 
-				builder.quintn(UkUnit.QUINTS.val());
-				builder.quadrn(UkUnit.QUADS.val());
-				builder.trilln(UkUnit.TRILLS.val());
-				builder.billn(UkUnit.BILLS.val());
-				builder.milln(UkUnit.MILLS.val());
-				builder.thoud(UkUnit.THOUS.val());
-				builder.hund(UkUnit.HUNS.val());
-				builder.and(UkUnit.AND.val());
-				builder.map(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
+		case UK -> {
 
-				provLangCache.put(ProvLang.UK, builder.build());
+			builder.quintn(UkUnit.QUINTS.getVal());
+			builder.quadrn(UkUnit.QUADS.getVal());
+			builder.trilln(UkUnit.TRILLS.getVal());
+			builder.billn(UkUnit.BILLS.getVal());
+			builder.milln(UkUnit.MILLS.getVal());
+			builder.thoud(UkUnit.THOUS.getVal());
+			builder.hund(UkUnit.HUNS.getVal());
+			builder.and(UkUnit.AND.getVal());
+			builder.map(of(UkPair.values()).collect(toMap(UkPair::getNum, UkPair::getWord)));
 
-				break;
-			case FR:
-				builder.quintn(FrUnit.QUINTS.val());
-				builder.quadrn(FrUnit.QUADS.val());
-				builder.trilln(FrUnit.TRILLS.val());
-				builder.billn(FrUnit.BILLS.val());
-				builder.milln(FrUnit.MILLS.val());
-				builder.thoud(FrUnit.THOUS.val());
-				builder.hund(FrUnit.HUNS.val());
-				builder.and(FrUnit.AND.val());
-				builder.map(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
-				provLangCache.put(ProvLang.FR, builder.build());
+			provLangCache.put(ProvLang.UK, builder.build());
+		}
 
-				break;
+		case FR -> {
+			builder.quintn(FrUnit.QUINTS.getVal());
+			builder.quadrn(FrUnit.QUADS.getVal());
+			builder.trilln(FrUnit.TRILLS.getVal());
+			builder.billn(FrUnit.BILLS.getVal());
+			builder.milln(FrUnit.MILLS.getVal());
+			builder.thoud(FrUnit.THOUS.getVal());
+			builder.hund(FrUnit.HUNS.getVal());
+			builder.and(FrUnit.AND.getVal());
+			builder.map(of(FrPair.values()).collect(toMap(FrPair::getNum, FrPair::getWord)));
+			provLangCache.put(ProvLang.FR, builder.build());
+		}
 
-			case DE:
-				builder.quintn(DeUnit.QUINTS.val());
-				builder.quadrn(DeUnit.QUADS.val());
-				builder.trilln(DeUnit.TRILLS.val());
-				builder.billn(DeUnit.BILLS.val());
-				builder.milln(DeUnit.MILLS.val());
-				builder.thoud(DeUnit.THOUS.val());
-				builder.hund(DeUnit.HUNS.val());
-				builder.and(DeUnit.AND.val());
-				builder.map(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
-				provLangCache.put(ProvLang.DE, builder.build());
-				break;
+		case DE -> {
+			builder.quintn(DeUnit.QUINTS.getVal());
+			builder.quadrn(DeUnit.QUADS.getVal());
+			builder.trilln(DeUnit.TRILLS.getVal());
+			builder.billn(DeUnit.BILLS.getVal());
+			builder.milln(DeUnit.MILLS.getVal());
+			builder.thoud(DeUnit.THOUS.getVal());
+			builder.hund(DeUnit.HUNS.getVal());
+			builder.and(DeUnit.AND.getVal());
+			builder.map(of(DePair.values()).collect(toMap(DePair::getNum, DePair::getWord)));
+			provLangCache.put(ProvLang.DE, builder.build());
+		}
 
-			case NL:
-				builder.quintn(NlUnit.QUINTS.val());
-				builder.quadrn(NlUnit.QUADS.val());
-				builder.trilln(NlUnit.TRILLS.val());
-				builder.billn(NlUnit.BILLS.val());
-				builder.milln(NlUnit.MILLS.val());
-				builder.thoud(NlUnit.THOUS.val());
-				builder.hund(NlUnit.HUNS.val());
-				builder.and(NlUnit.AND.val());
-				builder.map(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
-				provLangCache.put(ProvLang.NL, builder.build());
+		case NL -> {
+			builder.quintn(NlUnit.QUINTS.getVal());
+			builder.quadrn(NlUnit.QUADS.getVal());
+			builder.trilln(NlUnit.TRILLS.getVal());
+			builder.billn(NlUnit.BILLS.getVal());
+			builder.milln(NlUnit.MILLS.getVal());
+			builder.thoud(NlUnit.THOUS.getVal());
+			builder.hund(NlUnit.HUNS.getVal());
+			builder.and(NlUnit.AND.getVal());
+			builder.map(of(NlPair.values()).collect(toMap(NlPair::getNum, NlPair::getWord)));
+			provLangCache.put(ProvLang.NL, builder.build());
+		}
 
-				break;
+		default -> throw new AppConversionException();
 
-			default:
-				break;
-
-			}
 		}
 		return provLangCache.get(provLang);
 	}

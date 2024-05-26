@@ -3,18 +3,17 @@ package org.desz.numbertoword.converters;
 import static java.util.Arrays.asList;
 import static java.util.Locale.UK;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.desz.numbertoword.factory.ProvLangFactory.getInstance;
+import static org.desz.numbertoword.results.DeDecorator.deFormat;
 
 import java.text.NumberFormat;
 
 import org.desz.numbertoword.exceptions.AppConversionException;
 import org.desz.numbertoword.language.ProvLang;
-import org.desz.numbertoword.results.DeDecorator;
 import org.desz.numbertoword.results.Word;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,15 +62,9 @@ public class ConversionDelegate {
 		var word = wordMaker.buildWord(numbers, Word.builder(), intWordMapping);
 
 		// apply rules to 'decorate' DE word.
-		Word deWord = null;
-		if (provLang.equals(ProvLang.DE)) {
-			deWord = new DeDecorator(word).pluraliseUnitRule();
-			deWord = new DeDecorator(deWord).pluraliseHundredthRule(Integer.parseInt(numbers.getLast()));
-			deWord = nonNull(deWord.getThou()) ? new DeDecorator(deWord).combineThouHundRule() : deWord;
 
-		}
-
-		return isNull(deWord) ? normalizeSpace(stringifyWord(word)) : normalizeSpace(stringifyWord(deWord));
+		return !provLang.equals(ProvLang.DE) ? normalizeSpace(stringifyWord(word))
+				: normalizeSpace(stringifyWord(deFormat.apply(word, Integer.valueOf(numbers.getLast()))));
 
 	}
 

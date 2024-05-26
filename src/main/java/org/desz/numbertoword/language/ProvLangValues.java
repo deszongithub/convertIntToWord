@@ -30,7 +30,9 @@ public final class ProvLangValues {
 		FORTY("40", "Veertig"), FIFTY("50", "Vijftig"), SIXTY("60", "Zestig"), SEVENTY("70", "Zeventig"),
 		EIGHTY("80", "Tachtig"), NINETY("90", "Negentig");
 
+		@Getter
 		private String word;
+		@Getter
 		private String num;
 
 		private NlPair(String num, String word) {
@@ -38,17 +40,8 @@ public final class ProvLangValues {
 			this.word = word;
 		}
 
-		public String getWord() {
-			return word;
-		}
-
-		public String getNum() {
-			return num;
-		}
-
 	}
 
-	@Getter
 	public enum DePair {
 		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"),
 		SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10", "Zehn"),
@@ -58,20 +51,14 @@ public final class ProvLangValues {
 		FIFTY("50", "Fünfzig"), SIXTY("60", "Sechzig"), SEVENTY("70", "Siebzig"), EIGHTY("80", "Achtzig"),
 		NINETY("90", "Neunzig");
 
+		@Getter
 		private String word;
+		@Getter
 		private String num;
 
 		private DePair(String num, String word) {
 			this.num = num;
 			this.word = word;
-		}
-
-		public String getWord() {
-			return word;
-		}
-
-		public String getNum() {
-			return num;
 		}
 
 	}
@@ -82,7 +69,7 @@ public final class ProvLangValues {
 	 * @author des
 	 * 
 	 */
-	@Getter
+
 	public enum FrPair {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR("4", "Quatre"),
 		FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10", "Dix"),
@@ -92,20 +79,14 @@ public final class ProvLangValues {
 		FIFTY("50", "Cinquante"), SIXTY("60", "Soixante"), SEVENTY("70", "Soixante-dix"),
 		EIGHTY("80", "Soixante-vingt"), NINETY("90", "Quarante-vingt-dix");
 
+		@Getter
 		private String word;
+		@Getter
 		private String num;
 
 		private FrPair(String num, String word) {
 			this.num = num;
 			this.word = word;
-		}
-
-		public String getWord() {
-			return word;
-		}
-
-		public String getNum() {
-			return num;
 		}
 
 	}
@@ -119,20 +100,14 @@ public final class ProvLangValues {
 		FIFTY("50", "Fifty"), SIXTY("60", "Sixty"), SEVENTY("70", "Seventy"), EIGHTY("80", "Eighty"),
 		NINETY("90", "Ninety");
 
+		@Getter
 		private String word;
+		@Getter
 		private String num;
 
 		private UkPair(String num, String word) {
 			this.num = num;
 			this.word = word;
-		}
-
-		public String getWord() {
-			return word;
-		}
-
-		public String getNum() {
-			return num;
 		}
 
 	}
@@ -153,14 +128,11 @@ public final class ProvLangValues {
 		NULL_INPUT("Enter Integer to convert"), UNKNOWN("Unknown error"), NEGATIVE_INPUT("Negative Integer disallowed"),
 		NUMBER_FORMAT("Number Format Exception.. Integer too Large"), LANG_ERR("Select a valid language");
 
+		@Getter
 		private final String error;
 
 		UkError(String error) {
 			this.error = error;
-		}
-
-		public String getError() {
-			return this.error;
 		}
 
 	}
@@ -171,15 +143,13 @@ public final class ProvLangValues {
 		NEGATIVE_INPUT("Entier négatif non autorisé"), NUMBER_FORMAT("Exception Format de nombre.. Entier trop grand"),
 		LANG_ERR("Sélectionnez une langue valide");
 
+		@Getter
 		private String error;
 
-		private FrError(String error) {
+		FrError(String error) {
 			this.error = error;
 		}
-
-		public String getError() {
-			return this.error;
-		}
+	
 
 	}
 
@@ -194,14 +164,11 @@ public final class ProvLangValues {
 		NULL_INPUT("null-Eingang"), UNKNOWN("unbekannter Fehler"), NEGATIVE_INPUT("Negative Integer nicht erlaubt"),
 		NUMBER_FORMAT("Zahlenformat Ausnahme.. Integer zu groß"), LANG_ERR("Wählen Sie eine gültige Sprache");
 
+		@Getter
 		private String error;
 
 		private DeError(String error) {
 			this.error = error;
-		}
-
-		public String getError() {
-			return this.error;
 		}
 
 	}
@@ -217,14 +184,11 @@ public final class ProvLangValues {
 		NULL_INPUT("null-Eingang"), UNKNOWN("Onbekende Fout"), NEGATIVE_INPUT("Negatieve Integer niet toegestaan"),
 		NUMBER_FORMAT("Getalnotatie Uitzondering..Integer te groot"), LANG_ERR("Selecteer een geldige taal");
 
+		@Getter
 		private String error;
 
 		private NlError(String error) {
 			this.error = error;
-		}
-
-		public String getError() {
-			return this.error;
 		}
 
 	}
@@ -237,14 +201,11 @@ public final class ProvLangValues {
 		AND("et" + SPACE), QUINTS(SPACE + "quintillion"), QUADS(SPACE + "quadrillion"), TRILLS(SPACE + "trillion"),
 		BILLS(SPACE + "milliard"), MILLS(SPACE + "million"), THOUS(SPACE + "mille"), HUNS(SPACE + "cent");
 
+		@Getter
 		private String val;
 
 		FrUnit(String val) {
 			this.val = val;
-		}
-
-		public String val() {
-			return val;
 		}
 
 	}
@@ -255,20 +216,19 @@ public final class ProvLangValues {
 	 * @author des
 	 * 
 	 */
+
 	public enum DeUnit {
 
 		AND("und"), QUINTS(SPACE + "Trillion"), QUADS(SPACE + "Billiarde"), TRILLS(SPACE + "Billion"),
 		BILLS(SPACE + "Milliarde"), MILLS(SPACE + "Million"), THOUS(SPACE + "Tausend"), HUNS("hundert");
 
+		@Getter
 		private String val;
 
 		DeUnit(String val) {
 			this.val = val;
 		}
 
-		public String val() {
-			return val;
-		}
 	}
 
 	public enum NlUnit {
@@ -276,15 +236,13 @@ public final class ProvLangValues {
 		AND("en" + SPACE), QUINTS(SPACE + "triljoen"), QUADS(SPACE + "biljard"), TRILLS(SPACE + "biljoen"),
 		BILLS(SPACE + "miljard"), MILLS(SPACE + "miljeon"), THOUS(SPACE + "duizend"), HUNS(SPACE + "honderd");
 
+		@Getter
 		private String val;
 
 		NlUnit(String val) {
 			this.val = val;
 		}
 
-		public String val() {
-			return val;
-		}
 	}
 
 	public enum UkUnit {
@@ -292,14 +250,11 @@ public final class ProvLangValues {
 		AND("and" + SPACE), QUINTS(SPACE + "quintillion"), QUADS(SPACE + "quadrillion"), TRILLS(SPACE + "trillion"),
 		BILLS(SPACE + "billion"), MILLS(SPACE + "million"), THOUS(SPACE + "thousand"), HUNS(SPACE + "hundred");
 
+		@Getter
 		private String val;
 
 		UkUnit(String val) {
 			this.val = val;
-		}
-
-		public String val() {
-			return val;
 		}
 
 	}

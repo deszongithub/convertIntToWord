@@ -10,20 +10,21 @@ import java.util.List;
 
 import org.desz.numbertoword.exceptions.AppConversionException;
 import org.desz.numbertoword.language.NumberWordMapping;
+import org.desz.numbertoword.language.ProvLangValues.DeUnit;
 import org.desz.numbertoword.results.Word;
 import org.desz.numbertoword.results.Word.WordBuilder;
 
 public class WordMaker {
 
 	// add or remove 'und' for DE word.
-	private String processDeHun(String s, String and, boolean addAnd) {
+	private String processDeHun(String s, boolean addAnd) {
 
 		var l = asList(s.split(SPACE));
 
 		switch (l.size()) {
 
 		case 2:// add (if > 20) or remove (< 20) 'und'.
-			return addAnd ? l.get(1) + and + l.get(0) : l.get(0) + l.get(1).substring(3);
+			return addAnd ? l.get(1) + DeUnit.AND.getVal() + l.get(0) : l.get(0) + l.get(1).substring(3);
 
 		case 3:
 			return l.get(0) + l.get(2) + l.get(1);
@@ -45,10 +46,9 @@ public class WordMaker {
 		var num = funBuildWord.apply(firstElem, wordMapping).orElse(EMPTY);
 
 		var zero = wordMapping.wordForNum(0);
-		if (!num.equals(EMPTY) && !zero.toLowerCase().equals(num)) {
+		if (!num.isBlank() && !zero.toLowerCase().equals(num)) {
 
-			num = wordMapping.getId().equals(DE.name())
-					? processDeHun(num, wordMapping.getAnd(), Integer.parseInt(firstElem) % 100 > 20)
+			num = wordMapping.getId().equals(DE.name()) ? processDeHun(num, Integer.parseInt(firstElem) % 100 > 20)
 					: num;
 
 			switch (sz) {

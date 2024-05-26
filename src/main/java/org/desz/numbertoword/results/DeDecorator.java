@@ -11,11 +11,13 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
 import static org.desz.numbertoword.language.ProvLangValues.DePair.ONE;
 
+import java.util.function.BiFunction;
+
 /**
  * @author des
  *
  */
-public class DeDecorator implements IWordDecorator {
+public class DeDecorator {
 
 	private final Word word;
 
@@ -33,8 +35,14 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	@Override
-	public Word pluraliseUnitRule() {
+	public static final BiFunction<Word, Integer, Word> deFormat = (wrd, i) -> {
+		var deWord = new DeDecorator(wrd).pluraliseUnitRule();
+		deWord = new DeDecorator(deWord).pluraliseHundredthRule(i);
+		return nonNull(deWord.getThou()) ? new DeDecorator(deWord).combineThouHundRule() : deWord;
+
+	};
+
+	Word pluraliseUnitRule() {
 
 		var builder = word.toBuilder();
 		builder = nonNull(word.getQuint()) ?
@@ -61,8 +69,7 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	@Override
-	public Word pluraliseHundredthRule(int val) {
+	Word pluraliseHundredthRule(int val) {
 		var builder = word.toBuilder();
 
 		return Math.floorMod(val, 100) == 1 ? builder.hund(word.getHund() + "s").build()
@@ -70,18 +77,15 @@ public class DeDecorator implements IWordDecorator {
 
 	}
 
-	@Override
-	public Word combineThouHundRule() {
+	Word combineThouHundRule() {
 		var builder = word.toBuilder();
 
 		var sb = new StringBuilder();
-		sb = nonNull(word.getThou()) ? sb.append(word.getThou().replaceAll(SPACE, EMPTY)) : sb.append(EMPTY);
+		sb = nonNull(word.getThou()) ? sb.append(word.getThou().replaceAll(SPACE, EMPTY)) : sb;
 
-		sb = nonNull(word.getHund()) ? sb.append(word.getHund().replaceAll(SPACE, EMPTY)) : sb.append(EMPTY);
+		sb = nonNull(word.getHund()) ? sb.append(word.getHund().replaceAll(SPACE, EMPTY)) : sb;
 
-		builder.thou(sb.toString().toLowerCase()).hund(null);
-
-		return builder.build();
+		return builder.thou(sb.toString().toLowerCase()).hund(EMPTY).build();
 
 	}
 
