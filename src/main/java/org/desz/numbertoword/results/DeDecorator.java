@@ -3,17 +3,13 @@
  */
 package org.desz.numbertoword.results;
 
-import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.normalizeSpace;
-import static org.apache.commons.lang3.StringUtils.remove;
-
-import java.util.List;
+import static org.desz.numbertoword.language.ProvLangValues.DePair.ONE;
 
 /**
  * @author des
@@ -29,10 +25,11 @@ public class DeDecorator implements IWordDecorator {
 	}
 
 	private String pluralise(String unitWord) {
-		List<String> l = asList(unitWord.split(SPACE));
-		var sb = new StringBuilder(unitWord);
-		var sufx = unitWord.endsWith("e") ? sb.append("n") : sb.append("en");
-		return l.get(0).length() > 3 ? sufx.toString() : unitWord;
+
+		if (ONE.getWord().equals(asList(unitWord.split(SPACE)).getFirst())) {
+			return unitWord;
+		}
+		return unitWord.endsWith("e") ? unitWord.concat("n") : unitWord.concat("en");
 
 	}
 
@@ -68,13 +65,9 @@ public class DeDecorator implements IWordDecorator {
 	public Word pluraliseHundredthRule(int val) {
 		var builder = word.toBuilder();
 
-		var is = valueOf(val).mod(valueOf(100)).equals(ONE) ? builder.hund(word.getHund() + "s")
-				: builder.hund(word.getHund());
-		builder = nonNull(word.getHund()) ? is
+		return Math.floorMod(val, 100) == 1 ? builder.hund(word.getHund() + "s").build()
+				: builder.hund(word.getHund()).build();
 
-				: builder;
-
-		return builder.build();
 	}
 
 	@Override
@@ -82,9 +75,9 @@ public class DeDecorator implements IWordDecorator {
 		var builder = word.toBuilder();
 
 		var sb = new StringBuilder();
-		sb = nonNull(word.getThou()) ? sb.append(remove(word.getThou(), SPACE)) : sb.append(EMPTY);
+		sb = nonNull(word.getThou()) ? sb.append(word.getThou().replaceAll(SPACE, EMPTY)) : sb.append(EMPTY);
 
-		sb = nonNull(word.getHund()) ? sb.append(remove(word.getHund(), SPACE)) : sb.append(EMPTY);
+		sb = nonNull(word.getHund()) ? sb.append(word.getHund().replaceAll(SPACE, EMPTY)) : sb.append(EMPTY);
 
 		builder.thou(sb.toString().toLowerCase()).hund(null);
 

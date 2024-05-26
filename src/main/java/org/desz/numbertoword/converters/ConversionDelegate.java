@@ -51,13 +51,11 @@ public class ConversionDelegate {
 
 		var numbers = asList(nf.format(n).split(","));
 
-		var sz = numbers.size();
-
 		var intWordMapping = getInstance().getMapForProvLang(provLang);
 
 		var s = intWordMapping.wordForNum(n.intValue());
 		// return result if n < 1000 and contained by IntToWordMapping.
-		if (sz == 1 && !isBlank(s)) {
+		if (numbers.size() == 1 && !isBlank(s)) {
 
 			return s.toLowerCase();
 		}
@@ -67,8 +65,8 @@ public class ConversionDelegate {
 		// apply rules to 'decorate' DE word.
 		Word deWord = null;
 		if (provLang.equals(ProvLang.DE)) {
-			deWord = new DeDecorator(word.toBuilder().build()).pluraliseUnitRule();
-			deWord = new DeDecorator(deWord).pluraliseHundredthRule(Integer.parseInt(numbers.get(numbers.size() - 1)));
+			deWord = new DeDecorator(word).pluraliseUnitRule();
+			deWord = new DeDecorator(deWord).pluraliseHundredthRule(Integer.parseInt(numbers.getLast()));
 			deWord = nonNull(deWord.getThou()) ? new DeDecorator(deWord).combineThouHundRule() : deWord;
 
 		}

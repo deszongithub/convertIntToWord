@@ -24,9 +24,8 @@ public final class HundredthConverter {
 
 	}
 
-	static BiFunction<String, NumberWordMapping, Optional<String>> funBuildWord = (input, map) -> {
-		return isNull(input) || input.isBlank() ? empty() : of(wordForHundredth(input, map));
-	};
+	static BiFunction<String, NumberWordMapping, Optional<String>> funBuildWord = (input,
+			map) -> isNull(input) || input.isBlank() ? empty() : of(wordForHundredth(input, map));
 
 	/**
 	 * @param number

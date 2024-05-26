@@ -5,6 +5,8 @@ package org.desz.numbertoword.language;
 
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
+import lombok.Getter;
+
 /**
  * @author des
  * 
@@ -44,8 +46,9 @@ public final class ProvLangValues {
 			return num;
 		}
 
-	};
+	}
 
+	@Getter
 	public enum DePair {
 		ZERO("0", "Null"), ONE("1", "ein"), TWO("2", "Zwei"), THREE("3", "Drei"), FOUR("4", "Vier"), FIVE("5", "Fünf"),
 		SIX("6", "Sechs"), SEVEN("7", "Sieben"), EIGHT("8", "Acht"), NINE("9", "Neun"), TEN("10", "Zehn"),
@@ -71,7 +74,7 @@ public final class ProvLangValues {
 			return num;
 		}
 
-	};
+	}
 
 	/**
 	 * French integer to word
@@ -79,6 +82,7 @@ public final class ProvLangValues {
 	 * @author des
 	 * 
 	 */
+	@Getter
 	public enum FrPair {
 		ZERO("0", "Zéro"), ONE("1", "Un"), TWO("2", "Deux"), THREE("3", "Trois"), FOUR("4", "Quatre"),
 		FIVE("5", "Cinq"), SIX("6", "Six"), SEVEN("7", "Sept"), EIGHT("8", "Huit"), NINE("9", "Neuf"), TEN("10", "Dix"),
@@ -104,7 +108,7 @@ public final class ProvLangValues {
 			return num;
 		}
 
-	};
+	}
 
 	public enum UkPair {
 		ZERO("0", "Zero"), ONE("1", "One"), TWO("2", "Two"), THREE("3", "Three"), FOUR("4", "Four"), FIVE("5", "Five"),
@@ -131,7 +135,7 @@ public final class ProvLangValues {
 			return num;
 		}
 
-	};
+	}
 
 	/**
 	 * Errors possible during conversion.
@@ -159,7 +163,7 @@ public final class ProvLangValues {
 			return this.error;
 		}
 
-	};
+	}
 
 	public enum FrError {
 		INVALID_INPUT("Invalid d'entrée"), INVALID_NUMBER("Fractionnées ou non nombres entiers a refusé"),
@@ -177,7 +181,7 @@ public final class ProvLangValues {
 			return this.error;
 		}
 
-	};
+	}
 
 	/**
 	 * German Error messages
@@ -200,7 +204,7 @@ public final class ProvLangValues {
 			return this.error;
 		}
 
-	};
+	}
 
 	/**
 	 * NL error messages
@@ -223,7 +227,7 @@ public final class ProvLangValues {
 			return this.error;
 		}
 
-	};
+	}
 
 	/**
 	 * French. https://en.wikipedia.org/wiki/Names_of_large_numbers
@@ -243,7 +247,7 @@ public final class ProvLangValues {
 			return val;
 		}
 
-	};
+	}
 
 	/**
 	 * Germans
@@ -265,7 +269,7 @@ public final class ProvLangValues {
 		public String val() {
 			return val;
 		}
-	};
+	}
 
 	public enum NlUnit {
 
@@ -281,7 +285,7 @@ public final class ProvLangValues {
 		public String val() {
 			return val;
 		}
-	};
+	}
 
 	public enum UkUnit {
 
