@@ -31,6 +31,12 @@ public class ConversionDelegate {
 	public ConversionDelegate() {
 		wordMaker = (j, k, l) -> new WordMaker().buildWord(j, k, l);
 	}
+	
+	public String getWordForLanguage(String n, String pl) throws AppConversionException {
+		var o = ProvLang.valueOf(pl);
+		
+		return this.convertIntToWord(Long.valueOf(n), o);
+	}
 
 	/**
 	 * 
