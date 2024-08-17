@@ -47,8 +47,6 @@ public class ErrorFactory {
 	 * @return the error mapped to (provLang) key.
 	 */
 	public static String getErrorForProvLang(ProvLang provLang, String key) {
-		// if (provLang.equals(ProvLang.EMPTY))
-		// return EMPTY;
 
 		return !ERROR_CACHE.containsKey(provLang)
 				? enCacheErrors(provLang, key)
